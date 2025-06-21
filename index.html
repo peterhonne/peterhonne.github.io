@@ -47,7 +47,7 @@
         }
 
         .hero-content {
-            text-align: center;
+            text-align: start;
             color: white;
             z-index: 1;
             position: relative;
@@ -276,23 +276,27 @@
             font-size: 0.95rem;
         }
 
-        .project-showcase {
-            background: linear-gradient(-20deg, rgba(183, 33, 255, 0.05) 0%, rgba(33, 212, 253, 0.05) 100%);
-            padding: 4rem 2rem;
-            margin: 3rem 0;
-            border-radius: 20px;
-            text-align: center;
+        .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            margin-top: 2rem;
         }
 
         .project-card {
             background: white;
-            padding: 3rem 2rem;
+            padding: 2rem;
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(183, 33, 255, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
         }
 
         .project-card::before {
@@ -301,8 +305,18 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+        }
+
+        .featured-project {
+            grid-column: span 2;
+            background: linear-gradient(-20deg, rgba(183, 33, 255, 0.02) 0%, rgba(33, 212, 253, 0.02) 100%);
+            border: 2px solid rgba(183, 33, 255, 0.1);
+        }
+
+        .featured-project::before {
+            height: 6px;
         }
 
         .project-status {
@@ -317,7 +331,7 @@
         }
 
         .project-title {
-            font-size: 2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             margin-bottom: 1rem;
             color: #333;
@@ -325,8 +339,45 @@
 
         .project-description {
             color: #666;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(183, 33, 255, 0.3);
+        }
+
+        .project-link.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .project-link.disabled:hover {
+            transform: none;
+            box-shadow: none;
         }
 
         .tech-tags {
@@ -388,6 +439,43 @@
             color: white;
             animation: bounce 2s infinite;
         }
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(183, 33, 255, 0.4);
+        }
+
+        .back-to-top:active {
+            transform: translateY(-2px);
+        }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
@@ -395,7 +483,7 @@
             60% { transform: translateX(-50%) translateY(-5px); }
         }
 
-        @media (max-width: 768px) {
+            @media (max-width: 768px) {
             .hero-title {
                 font-size: 2.5rem;
             }
@@ -423,6 +511,18 @@
             .section {
                 padding: 3rem 1rem;
             }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-project {
+                grid-column: span 1;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -433,12 +533,18 @@
             <p class="hero-description">
                 Hi, I'm Peter. I’m a software engineer with 5 years of experience designing high-performance backend systems with Java, Spring Boot, and microservices architecture.
                 Passionate about the intersection of artificial intelligence and mental health technology, with a strong focus on innovative, scalable solutions.
-                Currently pursuing a Master of Information Technology degree in Auckland, New Zealand, to further deepen technical and research capabilities.
             </p>
+            <p class="hero-description"> Currently pursuing a Master of Information Technology degree in Auckland, New Zealand, to further deepen technical and research capabilities. </p>
+
+
             <div class="cta-buttons">
                 <a href="#experience" class="btn btn-primary">
                     <i class="fas fa-user"></i>
                     View Experience
+                </a>
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-user"></i>
+                    View Projects
                 </a>
                 <a href="#contact" class="btn btn-secondary">
                     <i class="fas fa-envelope"></i>
@@ -538,34 +644,78 @@
         </div>
     </section>
 
-    <div class="project-showcase">
-        <div class="project-card">
-            <span class="project-status">Coming Soon</span>
-            <h3 class="project-title">MindFlow AI</h3>
-            <p class="project-description">
-                Personalized Mental Health Intelligence Platform combining behavioral pattern analysis and
-                AI-powered insights to improve mental wellbeing.
-            </p>
-            <div class="tech-tags">
-                <span class="tech-tag">Java Spring Boot</span>
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Next.js</span>
-                <span class="tech-tag">Microservices</span>
-                <span class="tech-tag">AI/ML Integration</span>
-                <span class="tech-tag">Apache Kafka</span>
-                <span class="tech-tag">Redis</span>
-                <span class="tech-tag">RAG</span>
-                <span class="tech-tag">Docker</span>
-                <span class="tech-tag">Kubernetes</span>
-                <span class="tech-tag">Terraform</span>
-                <span class="tech-tag">Vector Database</span>
-                <span class="tech-tag">Apache Spark</span>
+
+     <section id="projects" class="section">
+        <h2 class="section-title">Personal Projects</h2>
+
+        <div class="projects-grid">
+            <div class="project-card featured-project">
+                <span class="project-status">In Development</span>
+                <h3 class="project-title">MindFlow AI</h3>
+                <p class="project-description">
+                    Advanced Healthcare Intelligence Platform that unifies multi-modal behavioral and biometric data
+                    to extract AI-enabled mental health insights, featuring automated workflow pipelines for data processing
+                    and real-time psychological pattern analysis with RAG-powered personalized interventions.
+                </p>
+
+                <div style="text-align: left; margin: 2rem 0; background: rgba(183, 33, 255, 0.05); padding: 1.5rem; border-radius: 10px;">
+                <h4 style="color: #b721ff; margin-bottom: 1rem; font-size: 1.1rem;">🏥 Domain-Specific AI Solutions:</h4>
+                <ul style="color: #555; margin-left: 1rem; line-height: 1.8;">
+                    <li><strong>Mental Health Analysis:</strong> Gemini API integration for sentiment analysis, depression/anxiety screening, and therapeutic conversation</li>
+                    <li><strong>Behavioral Pattern Mining:</strong> Time-series analysis of user interactions, sleep patterns, and activity data using Apache Spark</li>
+                    <li><strong>Predictive Mental Health:</strong> Early warning system for burnout/depression indicators with ML-based intervention recommendations</li>
+                </ul>
+
+                <h4 style="color: #21d4fd; margin: 1.5rem 0 1rem 0; font-size: 1.1rem;">⚙️ Automated Workflow Pipelines:</h4>
+                <ul style="color: #555; margin-left: 1rem; line-height: 1.8;">
+                    <li><strong>Event-Driven Data Processing:</strong> Kafka-based ingestion pipelines automatically processing voice notes, biometric data, and journal entries</li>
+                    <li><strong>Intelligent Task Scheduling:</strong> Automated Apache Airflow DAGs for daily analytics, weekly reports, and ML model retraining</li>
+                    <li><strong>Real-time Insight Generation:</strong> Automated alert system triggering personalized AI recommendations based on behavioral anomalies</li>
+                </ul>
+
+                <h4 style="color: #b721ff; margin: 1.5rem 0 1rem 0; font-size: 1.1rem;">🧠 Advanced AI Architecture:</h4>
+                <ul style="color: #555; margin-left: 1rem; line-height: 1.8;">
+                    <li><strong>RAG Implementation:</strong> Vector database storing personalized mental health research, enabling context-aware therapeutic conversations</li>
+                    <li><strong>Memory Evolution System:</strong> Long-term user profile building with progressive insight refinement over months/years</li>
+                    <li><strong>Multi-Modal AI Processing:</strong> Voice-to-text analysis, sentiment processing, and biometric correlation using distributed microservices</li>
+                </ul>
             </div>
-            <p style="color: #666; font-style: italic; margin-top: 1rem;">
-                Full-stack AI application featuring real-time behavioral analysis, predictive modeling, and personalized recommendations.
-            </p>
+
+                <div class="tech-tags">
+                    <span class="tech-tag">Java</span>
+                    <span class="tech-tag">Spring Boot</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Google Gemini</span>
+                    <span class="tech-tag">Next.js 14</span>
+                    <span class="tech-tag">Microservices</span>
+                    <span class="tech-tag">AI/ML Integration</span>
+                    <span class="tech-tag">Apache Kafka</span>
+                    <span class="tech-tag">Apache Airflow</span>
+                    <span class="tech-tag">Apache Spark</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">RAG + Vector DB</span>
+
+                    <span class="tech-tag">Docker + K8s</span>
+                    <span class="tech-tag">Terraform</span>
+                </div>
+                <div class="project-links">
+                    <a href="#" class="project-link disabled">
+                        <i class="fab fa-github"></i>
+                        Coming Soon
+                    </a>
+                    <a href="#" class="project-link disabled">
+                        <i class="fas fa-external-link-alt"></i>
+                        Demo Soon
+                    </a>
+                </div>
+            </div>
+            
         </div>
-    </div>
+    </section>
+
+
+
 
     <section id="contact" class="contact-section">
         <h2 class="section-title" style="color: white;">Let's Connect</h2>
@@ -589,6 +739,11 @@
         </div>
     </section>
 
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -601,6 +756,26 @@
                         block: 'start'
                     });
                 }
+            });
+        });
+
+        // Back to top button functionality
+        const backToTopButton = document.getElementById('backToTop');
+
+        // Show/hide back to top button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll to top when button is clicked
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
         });
 
